@@ -1,0 +1,8 @@
+{
+    "ftp-user":"user",
+    "ftp-pass":"pass",
+    "ftp-url":"ftp://location.com/",
+    "ftp-dir":"dir/subdir",
+    "sql-connStr":"Data Source=XXX; Database=XXX; Trusted_Connection=True;",
+    "temp-dir": "C:/temp-dir/"
+}
