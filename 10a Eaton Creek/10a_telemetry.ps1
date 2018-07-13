@@ -24,8 +24,7 @@ $SQLDB = $config."sql-database"
 $SQLConnString = "Data Source=$SQLServer; Database=$SQLDB; Trusted_Connection=True;"
 
 # Local
-$LocalDir = $config."temp-dir"
-
+$LocalDir = $PSScriptRoot + $config."temp-dir"
 
 #####################
 # Connect to FTP site
@@ -67,9 +66,9 @@ foreach ($file in $FilesToDownload) {
     $MaxDate += $table[1].Compute("Max(DateTime)", "Provisional=1")
 
     Write-Verbose "Uploading data to GData..."
-    #Import-TableToSQL -InTable $table[1] -ConnString $SQLConnString -DestTable "tblDischargeGauging" -mapping $mapStage
-    #Import-TableToSQL -InTable $table[1] -ConnString $SQLConnString -DestTable "tblWaterTempGauging" -mapping $mapTemp
-    #Import-TableToSQL -InTable $table[1] -ConnString $SQLConnString -DestTable "tblBarometerGauging" -mapping $mapPressure
+    Import-TableToSQL -InTable $table[1] -ConnString $SQLConnString -DestTable "tblDischargeGauging" -mapping $mapStage
+    Import-TableToSQL -InTable $table[1] -ConnString $SQLConnString -DestTable "tblWaterTempGauging" -mapping $mapTemp
+    Import-TableToSQL -InTable $table[1] -ConnString $SQLConnString -DestTable "tblBarometerGauging" -mapping $mapPressure
 
     Write-Verbose "Deleting $RemoteFile..."
     #Remove-FTPFile -User $Username -Pass $Password -Svr $Server -FilePath "$ServerDir/$file"

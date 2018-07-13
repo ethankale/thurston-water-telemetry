@@ -5,6 +5,5 @@
     "ftp-dir":"dir/subdir",
     "sql-server":"path/to/server",
     "sql-database":"db_name",
-    "sql-connStr":"Data Source=XXX; Database=XXX; Trusted_Connection=True;",
     "temp-dir": "C:/temp-dir/"
 }
