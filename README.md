@@ -13,10 +13,10 @@ Creating a New Telemetry Site
 -----------------------------
 For sites with equipment that is identical (and identically configured) to existing site equipment, just do the following:
 
-1: Copy an existing site subdirectory.
-2: Delete the archive.zip file.
-3: Modify the config.json file to point to the right location.
-4: Modify the telemetry Powershell script to upload the data you want.
-5: Update the SQL Server job by adding a new task to run the Powershell script.
+    1: Copy an existing site subdirectory.
+    2: Delete the archive.zip file.
+    3: Modify the config.json file to point to the right location.
+    4: Modify the telemetry Powershell script to upload the data you want.
+    5: Update the SQL Server job by adding a new task to run the Powershell script.
 
 For sites with equipment that differs (or is differently configured) from existing site equipment, you'll need to do 1-5 above, but you'll ALSO need to write custom parsing functions in the thurston_telemetry module to read the data.  See the In-Situ.ps1 file for an example of how to do that.
