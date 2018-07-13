@@ -1,7 +1,7 @@
 
 # Nat Kale | 2018-07-06
 
-Import-Module ..\thurston_telemetry -Force
+Import-Module "$(Split-Path $PSScriptRoot)\thurston_telemetry" -Force
 
 ########
 # Config
@@ -58,16 +58,15 @@ foreach ($file in $FilesToDownload) {
     $mapPressure = New-InSituMap -param 'pressure'
 
     Write-Verbose "Uploading data to GData..."
-    #Import-TableToSQL -InTable $table[1] -ConnString $SQLConnString -DestTable "tblDischargeGauging" -mapping $mapStage
-    #Import-TableToSQL -InTable $table[1] -ConnString $SQLConnString -DestTable "tblWaterTempGauging" -mapping $mapTemp
-    #Import-TableToSQL -InTable $table[1] -ConnString $SQLConnString -DestTable "tblBarometerGauging" -mapping $mapPressure
+    Import-TableToSQL -InTable $table[1] -ConnString $SQLConnString -DestTable "tblDischargeGauging" -mapping $mapStage
+    Import-TableToSQL -InTable $table[1] -ConnString $SQLConnString -DestTable "tblWaterTempGauging" -mapping $mapTemp
+    Import-TableToSQL -InTable $table[1] -ConnString $SQLConnString -DestTable "tblBarometerGauging" -mapping $mapPressure
 
     Write-Verbose "Deleting $RemoteFile..."
-    #Remove-FTPFile -User $Username -Pass $Password -Svr $Server -FilePath "$ServerDir/$file"
+    Remove-FTPFile -User $Username -Pass $Password -Svr $Server -FilePath "$ServerDir/$file"
 
     Write-Verbose "Adding file to archive..."
-    #Copy-ToZip "$(Split-Path -Path $localDir)\archive.zip"
-    & ..\7z\7za.exe a archive.zip $LocalFile
+    & "$(Split-Path $PSScriptRoot)\7z\7za.exe" a archive.zip $LocalFile
 }
 
 #########
@@ -75,9 +74,5 @@ foreach ($file in $FilesToDownload) {
 #########
 
 Write-Verbose "Deleting local files from $LocalDir"
-
-
 Remove-Item "$($LocalDir)*.*"
-
-
 
