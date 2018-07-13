@@ -24,6 +24,7 @@ $SQLConnString = $config."sql-connStr"
 # Local
 $LocalDir = $config."temp-dir"
 
+
 #####################
 # Connect to FTP site
 #####################
@@ -49,18 +50,24 @@ foreach ($file in $FilesToDownload) {
     $CsvFilePath = "$($LocalDir)csv_$file"
     $CSV >> $CsvFilePath
 
+    # The In-Situ instrument records stage, temperature, and barometric
+    # pressure, so we'll write to each of those tables in GData.
     $table = ConvertFrom-InSituCSVToTable -csvfile $CsvFilePath -gid 965
     $mapStage = New-InSituMap -param 'stage'
     $mapTemp = New-InSituMap -param 'temperature'
     $mapPressure = New-InSituMap -param 'pressure'
 
     Write-Verbose "Uploading data to GData..."
-    Import-TableToSQL -InTable $table[1] -ConnString $SQLConnString -DestTable "tblDischargeGauging" -mapping $mapStage
+    #Import-TableToSQL -InTable $table[1] -ConnString $SQLConnString -DestTable "tblDischargeGauging" -mapping $mapStage
     #Import-TableToSQL -InTable $table[1] -ConnString $SQLConnString -DestTable "tblWaterTempGauging" -mapping $mapTemp
     #Import-TableToSQL -InTable $table[1] -ConnString $SQLConnString -DestTable "tblBarometerGauging" -mapping $mapPressure
 
     Write-Verbose "Deleting $RemoteFile..."
-    Remove-FTPFile -User $Username -Pass $Password -Svr $Server -FilePath "$ServerDir/$file"
+    #Remove-FTPFile -User $Username -Pass $Password -Svr $Server -FilePath "$ServerDir/$file"
+
+    Write-Verbose "Adding file to archive..."
+    #Copy-ToZip "$(Split-Path -Path $localDir)\archive.zip"
+    & ..\7z\7za.exe a archive.zip $LocalFile
 }
 
 #########
@@ -68,6 +75,8 @@ foreach ($file in $FilesToDownload) {
 #########
 
 Write-Verbose "Deleting local files from $LocalDir"
+
+
 Remove-Item "$($LocalDir)*.*"
 
 
