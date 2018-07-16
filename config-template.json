@@ -5,5 +5,6 @@
     "ftp-dir":"dir/subdir",
     "sql-server":"path/to/server",
     "sql-database":"db_name",
-    "temp-dir": "C:/temp-dir/"
+    "temp-dir": "C:/temp-dir/",
+    "gid": "123"
 }
