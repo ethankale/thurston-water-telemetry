@@ -8,7 +8,7 @@ $localPath = "D:\Web_Water-Monitoring"
 
 $config = (Get-Content -Raw $PSScriptRoot\config.json) | ConvertFrom-Json
 $usr = $config."remote-user"
-$pwd = $config."remote_pass"
+$pwd = $config."remote-pass"
 
 net use $remoteServer$remotePath /user:$usr $pwd
 try {
