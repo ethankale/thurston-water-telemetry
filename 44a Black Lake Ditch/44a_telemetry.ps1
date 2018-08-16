@@ -74,7 +74,7 @@ foreach ($file in $FilesToDownload) {
     Import-TableToSQL -InTable $table[1] -ConnString $SQLConnString -DestTable "tblBarometerGauging" -mapping $mapPressure
 
     Write-Verbose "Deleting $RemoteFile..."
-    #Remove-FTPFile -User $Username -Pass $Password -Svr $Server -FilePath "$ServerDir/$file"
+    Remove-FTPFile -User $Username -Pass $Password -Svr $Server -FilePath "$ServerDir/$file"
 
     Write-Verbose "Adding file to archive..."
     & "$(Split-Path $PSScriptRoot)\7z\7za.exe" a archive.zip $LocalFile

@@ -25,6 +25,7 @@ $SQLConnString = "Data Source=$SQLServer; Database=$SQLDB; Trusted_Connection=Tr
 
 # Local
 $LocalDir = $PSScriptRoot + $config."temp-dir"
+$gid = $config."gid"
 
 #####################
 # Connect to FTP site
@@ -56,7 +57,7 @@ foreach ($file in $FilesToDownload) {
 
     # The In-Situ instrument records stage, temperature, and barometric
     # pressure, so we'll write to each of those tables in GData.
-    $table = ConvertFrom-InSituCSVToTable -csvfile $CsvFilePath -gid 965
+    $table = ConvertFrom-InSituCSVToTable -csvfile $CsvFilePath -gid $gid
     $mapStage = New-InSituMap -param 'stage'
     $mapTemp = New-InSituMap -param 'temperature'
     $mapPressure = New-InSituMap -param 'pressure'
@@ -71,7 +72,7 @@ foreach ($file in $FilesToDownload) {
     Import-TableToSQL -InTable $table[1] -ConnString $SQLConnString -DestTable "tblBarometerGauging" -mapping $mapPressure
 
     Write-Verbose "Deleting $RemoteFile..."
-    #Remove-FTPFile -User $Username -Pass $Password -Svr $Server -FilePath "$ServerDir/$file"
+    Remove-FTPFile -User $Username -Pass $Password -Svr $Server -FilePath "$ServerDir/$file"
 
     Write-Verbose "Adding file to archive..."
     & "$(Split-Path $PSScriptRoot)\7z\7za.exe" a archive.zip $LocalFile
@@ -96,7 +97,7 @@ if ($MinDate.Length -eq 0) {
         'SQLServer'  = $SQLServer;
         'SQLDB'      = $SQLDB;
         'table'      = 'tblDischargeDaily';
-        'gid'        = '965';
+        'gid'        = $gid;
         'BeginDate'  = $FirstDateTime;
         'EndDate'    = $LastDateTime
     }
